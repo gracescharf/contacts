@@ -3,7 +3,7 @@ import React from "react"
 import ContactDetails from "../../components/ContactDetails.tsx"
 import { useContactsContext } from "../../contexts/contacts.context"
 
-const contactDetailsPage = () => {
+const ContactDetailsPage = () => {
   const router = useRouter()
   const { handle } = router.query
   const { contacts } = useContactsContext()
@@ -17,4 +17,4 @@ const contactDetailsPage = () => {
   return <ContactDetails contact={contact} />
 }
 
-export default contactDetailsPage
+export default ContactDetailsPage

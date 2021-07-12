@@ -4,7 +4,6 @@ export interface IContact {
   jobTitle: string
   address: string
   email: string
-  id: number
   handle: string
   // picture: string
 }
