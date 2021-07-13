@@ -11,6 +11,8 @@ import {
   reducer,
 } from "./state"
 
+import styles from "./contact-form.module.css"
+
 const ContactForm: React.FunctionComponent<{
   contact?: IContact
 }> = ({ contact }) => {
@@ -76,7 +78,7 @@ const ContactForm: React.FunctionComponent<{
   }
 
   return (
-    <form onSubmit={onFormSubmit}>
+    <form className={styles.form} onSubmit={onFormSubmit}>
       <label htmlFor="first-name">First Name</label>
       <input
         id="firstName"
@@ -131,13 +133,16 @@ const ContactForm: React.FunctionComponent<{
           onInputChange(e, FormActions.UPDATE_FIRST_NAME, dispatch)
         }
       />
-
-      <button type="submit">{formType}</button>
-      {formType === FormType.EDIT && (
-        <button type="button" onClick={deleteContact}>
-          Delete contact
+      <div>
+        <button type="submit" className="link">
+          Save
         </button>
-      )}
+        {formType === FormType.EDIT && (
+          <button className="link delete" type="button" onClick={deleteContact}>
+            Delete contact
+          </button>
+        )}
+      </div>
     </form>
   )
 }

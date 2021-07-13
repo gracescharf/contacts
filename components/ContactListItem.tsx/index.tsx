@@ -1,7 +1,7 @@
 import React from "react"
 import Link from "next/link"
 import { IContact } from "../../models"
-
+import styles from "./contact-list-item.module.css"
 const ContactListItem: React.FunctionComponent<Partial<IContact>> = ({
   firstName,
   lastName,
@@ -9,13 +9,11 @@ const ContactListItem: React.FunctionComponent<Partial<IContact>> = ({
 }) => {
   return (
     <li>
-      <h2>
-        <Link href={`contacts/${handle}`}>
-          <a>
-            {firstName} {lastName}
-          </a>
-        </Link>
-      </h2>
+      <Link href={`contacts/${handle}`}>
+        <a className={styles.name}>
+          {firstName} {lastName}
+        </a>
+      </Link>
     </li>
   )
 }

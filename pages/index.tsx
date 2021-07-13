@@ -20,7 +20,7 @@ export default function Home() {
         <h1>Your Contacts</h1>
         <ContactsList />
         <Link href="/add">
-          <a>Add New Contact</a>
+          <a className="link">Add new contact</a>
         </Link>
       </main>
       <footer className={styles.footer}>

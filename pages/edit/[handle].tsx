@@ -7,7 +7,12 @@ const EditContact = () => {
 
   if (!contact) return "No contact found"
 
-  return <ContactForm contact={contact}></ContactForm>
+  return (
+    <main>
+      <h1>Edit contact</h1>
+      <ContactForm contact={contact}></ContactForm>
+    </main>
+  )
 }
 
 export default EditContact

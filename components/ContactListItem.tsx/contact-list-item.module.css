@@ -1,0 +1,15 @@
+.name {
+  display: block;
+  padding: 1rem;
+  border: 0.5px solid lightgrey;
+  margin: 1rem 0;
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+
+.name:hover,
+.name:focus {
+  background-color: black;
+  color: white;
+  border-color: white;
+}
