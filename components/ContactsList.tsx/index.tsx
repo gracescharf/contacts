@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { useContactsContext } from "../../contexts/contacts.context"
+import { useContactsContext } from "../../hooks"
 import ContactListItem from "../ContactListItem.tsx"
 
 const ContactsList = () => {
@@ -11,6 +11,7 @@ const ContactsList = () => {
     <ul>
       {contacts.map((contact) => (
         <ContactListItem
+          key={contact.handle}
           firstName={contact.firstName}
           lastName={contact.lastName}
           handle={contact.handle}

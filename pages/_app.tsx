@@ -1,6 +1,6 @@
 import "../styles/globals.css"
 import type { AppProps } from "next/app"
-import { ContactsContext, useContactsState } from "../contexts/contacts.context"
+import { ContactsContext, useContactsState } from "../hooks"
 import { useEffect } from "react"
 import { IContact } from "../models"
 
@@ -13,6 +13,7 @@ const getContacts = () => {
 function MyApp({ Component, pageProps }: AppProps) {
   const contactsState = useContactsState()
 
+  console.log()
   useEffect(() => {
     getContacts().then((contactsData) => {
       contactsState.setContacts(contactsData)

@@ -1,20 +1,34 @@
 import { useRouter } from "next/dist/client/router"
+import Link from "next/link"
 import React from "react"
 import ContactDetails from "../../components/ContactDetails.tsx"
-import { useContactsContext } from "../../contexts/contacts.context"
+import { useContactFromHandle } from "../../hooks"
 
 const ContactDetailsPage = () => {
-  const router = useRouter()
-  const { handle } = router.query
-  const { contacts } = useContactsContext()
+  const contact = useContactFromHandle()
 
-  if (!contacts.length) return null
+  if (!contact)
+    return (
+      <div>
+        <p>No contact with that name found</p>
+        <Link href="/add">
+          <a>Add new contact</a>
+        </Link>
+      </div>
+    )
 
-  const contact = contacts.find((contact) => handle === contact.handle)
+  return (
+    <div>
+      <ContactDetails contact={contact} />
 
-  if (!contact) return "no contact with that name found"
-
-  return <ContactDetails contact={contact} />
+      <Link href={`/edit/${contact.handle}`}>
+        <a>Edit contact</a>
+      </Link>
+      <Link href="/">
+        <a>Back to contacts</a>
+      </Link>
+    </div>
+  )
 }
 
 export default ContactDetailsPage

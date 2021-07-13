@@ -1,106 +1,143 @@
-import React, { useReducer } from "react"
+import { useRouter } from "next/dist/client/router"
+import React, { useEffect, useReducer, useState } from "react"
+import { useContactsContext } from "../../hooks"
+import { IContact } from "../../models"
+import { handleize } from "../../utils"
+import {
+  FormActions,
+  FormType,
+  initialFormState,
+  onInputChange,
+  reducer,
+} from "./state"
 
-interface IContactForm {
-  firstName: string
-  lastName: string
-  jobTitle: string
-  address: string
-  email: string
-}
-
-enum FormActions {
-  UPDATE_FIRST_NAME = "update first name",
-  UPDATE_LAST_NAME = "update last name",
-  UPDATE_JOB_TITLE = "update job title",
-  UPDATE_ADDRESS = "update address",
-  UPDATE_EMAIL = "update email",
-}
-
-interface IAction {
-  type: FormActions
-  payload: {
-    value: string
-    inputId: keyof IContactForm
-  }
-}
-
-const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault()
-}
-
-const reducer = (state: IContactForm, action: IAction): IContactForm => {
-  return {
-    ...state,
-    [action.payload.inputId]: action.payload.value,
-  }
-}
-
-const initialFormState: IContactForm = {
-  firstName: "",
-  lastName: "",
-  jobTitle: "",
-  address: "",
-  email: "",
-}
-
-const ContactForm = () => {
+const ContactForm: React.FunctionComponent<{
+  contact?: IContact
+}> = ({ contact }) => {
   const [formState, dispatch] = useReducer(reducer, initialFormState)
-  const onInputChange = (
-    e: React.FormEvent<HTMLInputElement>,
-    actionType: FormActions
-  ) => {
-    const target = e.target as HTMLInputElement
+  const [formType, setFormType] = useState(FormType.ADD)
+
+  const { contacts, setContacts } = useContactsContext()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!contact) return
+
+    setFormType(FormType.EDIT)
+
     dispatch({
-      type: actionType,
+      type: FormActions.UPDATE_FORM,
       payload: {
-        value: target.value,
-        inputId: target.id as keyof IContactForm,
+        newState: contact,
       },
     })
+  }, [contact])
+
+  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const handle = handleize(`${formState.firstName} ${formState.lastName}`)
+    const newContact = {
+      ...formState,
+      handle,
+    }
+
+    if (formType === FormType.EDIT && contact) {
+      const oldContactIndex = contacts.findIndex(
+        (c) => c.handle === contact.handle
+      )
+      const copiedContacts = [...contacts]
+      copiedContacts.splice(oldContactIndex, 1)
+      console.log("copied", copiedContacts)
+      setContacts([...copiedContacts, newContact])
+    } else {
+      setContacts([...contacts, newContact])
+    }
+
+    router.push(`/contacts/${handle}`)
   }
+
+  const deleteContact = () => {
+    if (
+      contact &&
+      window.confirm(
+        `Are you sure you want to delete ${contact.firstName} ${contact.lastName} from your contacts?`
+      )
+    ) {
+      const copiedContacts = [...contacts]
+
+      const oldContactIndex = contacts.findIndex(
+        (c) => c.handle === contact.handle
+      )
+      copiedContacts.splice(oldContactIndex, 1)
+
+      setContacts([...copiedContacts])
+      router.push("/")
+    } else return null
+  }
+
   return (
-    <form>
+    <form onSubmit={onFormSubmit}>
       <label htmlFor="first-name">First Name</label>
       <input
         id="firstName"
+        value={formState.firstName}
         type="text"
         required
-        onChange={(e) => onInputChange(e, FormActions.UPDATE_FIRST_NAME)}
+        onChange={(e) =>
+          onInputChange(e, FormActions.UPDATE_FIRST_NAME, dispatch)
+        }
       />
 
       <label htmlFor="last-name">Last Name</label>
       <input
         id="lastName"
+        value={formState.lastName}
         type="text"
         required
-        onChange={(e) => onInputChange(e, FormActions.UPDATE_FIRST_NAME)}
+        onChange={(e) =>
+          onInputChange(e, FormActions.UPDATE_FIRST_NAME, dispatch)
+        }
       />
 
       <label htmlFor="job-title">Job Title</label>
       <input
         id="jobTitle"
+        value={formState.jobTitle}
         type="text"
         required
-        onChange={(e) => onInputChange(e, FormActions.UPDATE_FIRST_NAME)}
+        onChange={(e) =>
+          onInputChange(e, FormActions.UPDATE_FIRST_NAME, dispatch)
+        }
       />
 
       <label htmlFor="address">Address</label>
       <input
         id="address"
+        value={formState.address}
         type="text"
         required
-        onChange={(e) => onInputChange(e, FormActions.UPDATE_FIRST_NAME)}
+        onChange={(e) =>
+          onInputChange(e, FormActions.UPDATE_FIRST_NAME, dispatch)
+        }
       />
 
       <label htmlFor="email">Email</label>
       <input
         id="email"
+        value={formState.email}
         type="email"
         required
-        onChange={(e) => onInputChange(e, FormActions.UPDATE_FIRST_NAME)}
+        onChange={(e) =>
+          onInputChange(e, FormActions.UPDATE_FIRST_NAME, dispatch)
+        }
       />
 
-      <button type="submit">Add Contact</button>
+      <button type="submit">{formType}</button>
+      {formType === FormType.EDIT && (
+        <button type="button" onClick={deleteContact}>
+          Delete contact
+        </button>
+      )}
     </form>
   )
 }
