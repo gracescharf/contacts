@@ -1,11 +1,11 @@
-import "../styles/globals.css"
-import type { AppProps } from "next/app"
-import { ContactsContext, useContactsState } from "../hooks"
-import { useEffect } from "react"
-import { IContact } from "../models"
+import '../styles/globals.css'
+import type { AppProps } from 'next/app'
+import { ContactsContext, useContactsState } from '../hooks'
+import { useEffect } from 'react'
+import { IContact } from '../models'
 
 const getContacts = () => {
-  return fetch("/api/get-contacts")
+  return fetch('/api/get-contacts')
     .then((r) => r.json())
     .then((data: IContact[]) => data)
 }
@@ -13,7 +13,6 @@ const getContacts = () => {
 function MyApp({ Component, pageProps }: AppProps) {
   const contactsState = useContactsState()
 
-  console.log()
   useEffect(() => {
     getContacts().then((contactsData) => {
       contactsState.setContacts(contactsData)

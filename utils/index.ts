@@ -5,8 +5,12 @@
  * @returns 'marie-helene'
  */
 export const handleize = (string: string): string => {
-  return string
-    .split(" ")
+  const stringArr = string.split(" ")
+  if (stringArr.length < 2) {
+    return string.toLocaleLowerCase()
+  }
+
+  return stringArr
     .join("-")
     .toLocaleLowerCase()
     .normalize("NFD")

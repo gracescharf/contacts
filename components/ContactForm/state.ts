@@ -31,7 +31,7 @@ export const reducer = (state: IContactForm, action: IAction) => {
     return action.payload?.newState || state
   }
 
-  if (!action.payload.inputId || !action.payload.value) {
+  if (!action.payload.inputId) {
     return state
   }
 

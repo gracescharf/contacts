@@ -36,12 +36,9 @@ export const useHandle = () => {
 export const useContactFromHandle = () => {
   const router = useRouter()
   const { handle } = router.query
-
-  if (!handle) return undefined
-
   const { contacts } = useContactsContext()
 
-  if (!contacts.length) return undefined
+  if (!handle || !contacts.length) return undefined
 
   return contacts.find((contact) => handle === contact.handle)
 }

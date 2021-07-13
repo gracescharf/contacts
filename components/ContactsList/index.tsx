@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react"
-import { useContactsContext } from "../hooks"
-import ContactListItem from "./ContactListItem.tsx"
+import React from 'react'
+import { useContactsContext } from '../../hooks'
+import ContactListItem from '../ContactListItem.tsx'
 
 const ContactsList = () => {
   const { contacts } = useContactsContext()

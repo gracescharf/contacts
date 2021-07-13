@@ -1,17 +1,17 @@
-import { useRouter } from "next/dist/client/router"
-import React, { useEffect, useReducer, useState } from "react"
-import { useContactsContext } from "../../hooks"
-import { IContact } from "../../models"
-import { handleize } from "../../utils"
+import { useRouter } from 'next/dist/client/router'
+import React, { useEffect, useReducer, useState } from 'react'
+import { useContactsContext } from '../../hooks'
+import { IContact } from '../../models'
+import { handleize } from '../../utils'
 import {
   FormActions,
   FormType,
   initialFormState,
   onInputChange,
   reducer,
-} from "./state"
+} from './state'
 
-import styles from "./contact-form.module.css"
+import styles from './contact-form.module.css'
 
 const ContactForm: React.FunctionComponent<{
   contact?: IContact
@@ -43,13 +43,13 @@ const ContactForm: React.FunctionComponent<{
       handle,
     }
 
-    if (formType === FormType.EDIT && contact) {
+    if (contact && formType === FormType.EDIT) {
       const oldContactIndex = contacts.findIndex(
         (c) => c.handle === contact.handle
       )
       const copiedContacts = [...contacts]
       copiedContacts.splice(oldContactIndex, 1)
-      console.log("copied", copiedContacts)
+
       setContacts([...copiedContacts, newContact])
     } else {
       setContacts([...contacts, newContact])
@@ -73,7 +73,7 @@ const ContactForm: React.FunctionComponent<{
       copiedContacts.splice(oldContactIndex, 1)
 
       setContacts([...copiedContacts])
-      router.push("/")
+      router.push('/')
     } else return null
   }
 

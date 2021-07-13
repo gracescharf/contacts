@@ -1,10 +1,8 @@
-import Head from "next/head"
-import Image from "next/image"
-import Link from "next/link"
-import ContactsList from "../components/ContactsList.tsx"
-import styles from "../styles/Home.module.css"
+import Head from 'next/head'
+import Link from 'next/link'
+import ContactsList from '../components/ContactsList'
 
-export default function Home() {
+export default function Contacts() {
   return (
     <div>
       <Head>
@@ -23,18 +21,6 @@ export default function Home() {
           <a className="link">Add new contact</a>
         </Link>
       </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   )
 }
