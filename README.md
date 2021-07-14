@@ -1,34 +1,112 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a simple app to view, add, edit, and delete contacts.
+It is built in Next.js, using Typescript, CSS Modules, Jest and React Testing Library, and deployed by Vercel.
 
 ## Getting Started
 
-First, run the development server:
+To view the app in action, you can visit [https://contacts-app-eight.vercel.app/](https://contacts-app-eight.vercel.app/)
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+To view the app locally, clone the repo, run `npm i` and then `npm run dev`. The app will be running at [http://localhost:3000](http://localhost:3000)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## APIs
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+The mock REST APIs on this project make use of [Next.js's API routes.](https://nextjs.org/docs/api-routes/introduction)
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.tsx`.
+Each API returns an array of contact objects
+**Example response**
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+     [
+      {
+        firstName:  'Isaac',
+        lastName:  'Brock',
+        jobTitle:  'Singer and guitarist',
+        address: '1219   SW Park Ave, Portland, OR 97205',
+        email:  'isaac.brock@modestmouse.com',
+        handle:  'isaac-brock',
+      },
+    ]
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+**Get Contacts**
+Always sends back an array of the same 3 contacts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**URL** `/api/get-contacts`
+**Method** `get`
+**Returns** An array of contact objects
+**Example usage**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+    fetch('/api/get-contacts')
+    .then((r) =>  r.json())
+    .then((data) =>  data)
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Add Contact**
+Takes a new contact object and returns the mock contact data array plus the new contact. Because there isn't an actual database set up, only one new contact can be added. Adding another new contact will result in the loss of the previous new contact
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+**URL** `/api/add-contact`
+**Method** `post`
+**Accepts** A contact object
+**Returns** An array of contact objects, including new contact
+**Example usage**
+
+    fetch('/api/add-contact', {
+      method:  'POST',
+      body:  JSON.stringify(contact),
+    })
+    .then((r) =>  r.json())
+    .then((r) =>  r)
+
+---
+
+**Edit**
+Edit the content of a single contact
+
+**URL** `/api/edit-contact`
+**Method** `post`
+**Accepts** An object containing two properties: the new version of the contact object and the old version's handle
+**Returns** An array of contact objects with only the new version of the edited contact
+**Example usage**
+
+    fetch('/api/edit-contact', {
+      method:  'POST',
+      body: JSON.stringify({ newContact, oldHandle }),
+    })
+    .then((r) =>  r.json())
+    .then((r) =>  r)
+
+---
+
+**Delete Contact**
+Similar to `add-contact`, only one contact at a time can be deleted
+
+**URL** `/api/delete-contact`
+**Method** `get``
+**Accepts** The handle of the contact to delete
+**Returns** An array of contact objects minus the contact with the matched handle
+**Example usage**
+
+    fetch(`/api/delete-contact/${handle}`)
+    .then((r) =>  r.json())
+    .then((r) =>  r)
+
+## Why Next.Js?
+
+- Make use of its built-in backend-for-frontend for mocked API requests
+- Comes with a good set up (CSS Modules, Typescript, routing)
+- Remote deployment
+- Wanted to play around / explore Next.Js a bit more :)
+
+## Considerations
+
+- Contact details are in a separate page rather than a modal not only because modals are annoying to code & to experience, but because it's better for accessibility compliance. And I like that you can look up a contact's details by going to `/contacts/${firstName-lastName}`
+- The source of truth comes from the API and gets added to Context. I initially didn't have add/edit/delete APIs, and was just adding/editing/deleting directly to/from Context, which had the benefit of being able to add and delete as many contacts as you want. But ultimately I felt like this way is better to demonstrate how it would actually work if I were querying database
+
+## Up Next
+
+- Better error handling, especially for the APIs (eg, if the handle passed to `delete-contact` doesn't match anything)
+- Full test coverage
+- Handle the case of two contacts with the same name - this will mess up the handle which I'm currently using as an ID. Would probably solve this by just adding a unique ID to each contact
+- Add loading states between transitions
+- Add full address fields with autocomplete / validation
+- Add image to contact
