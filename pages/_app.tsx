@@ -1,7 +1,7 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import { ContactsContext, useContactsState } from '../hooks'
-import { useEffect } from 'react'
+import { ContactsContext } from '../hooks'
+import { useEffect, useState } from 'react'
 import { IContact } from '../models'
 
 const getContacts = () => {
@@ -11,17 +11,17 @@ const getContacts = () => {
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const contactsState = useContactsState()
+  const [contacts, setContacts] = useState<IContact[]>([])
 
   useEffect(() => {
     getContacts().then((contactsData) => {
-      contactsState.setContacts(contactsData)
+      setContacts(contactsData)
     })
   }, [])
 
   return (
     <>
-      <ContactsContext.Provider value={contactsState}>
+      <ContactsContext.Provider value={{ contacts, setContacts }}>
         <Component {...pageProps} />
       </ContactsContext.Provider>
     </>

@@ -1,6 +1,6 @@
-import { useRouter } from "next/dist/client/router"
-import { createContext, useContext, useState } from "react"
-import { IContact } from "../models"
+import { useRouter } from 'next/dist/client/router'
+import { createContext, useContext, useState } from 'react'
+import { IContact } from '../models'
 
 interface IContactsContext {
   contacts: IContact[]
@@ -11,17 +11,6 @@ export const ContactsContext = createContext<IContactsContext>({
   contacts: [],
   setContacts: () => {},
 })
-
-/**
- * Used to set put the contacts into the ContactsContext & to supply a setter to the context
- */
-export const useContactsState = () => {
-  const [contacts, setContacts] = useState<IContact[]>([])
-  return {
-    contacts,
-    setContacts,
-  }
-}
 
 export const useContactsContext = () => useContext(ContactsContext)
 
