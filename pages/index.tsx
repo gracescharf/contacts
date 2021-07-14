@@ -14,13 +14,13 @@ export default function Contacts() {
           rel="stylesheet"
         ></link>
       </Head>
-      <main>
+      <div>
         <h1>Your Contacts</h1>
         <ContactsList />
         <Link href="/add">
           <a className="link">Add new contact</a>
         </Link>
-      </main>
+      </div>
     </div>
   )
 }

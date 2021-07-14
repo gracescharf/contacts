@@ -117,6 +117,17 @@ const ContactForm: React.FunctionComponent<{
         }
       />
 
+      <label htmlFor="phoneNumber">Phone Number</label>
+      <input
+        id="phoneNumber"
+        value={formState.phoneNumber}
+        type="text"
+        required
+        onChange={(e) =>
+          onInputChange(e, FormActions.UPDATE_FIRST_NAME, dispatch)
+        }
+      />
+
       <label htmlFor="email">Email</label>
       <input
         id="email"

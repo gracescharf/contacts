@@ -3,7 +3,7 @@ export interface IContact {
   lastName: string
   jobTitle: string
   address: string
+  phoneNumber: string
   email: string
   handle: string
-  // picture: string
 }

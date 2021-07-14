@@ -5,16 +5,18 @@ export interface IContactForm {
   lastName: string
   jobTitle: string
   address: string
+  phoneNumber: string
   email: string
 }
 
 export enum FormActions {
-  UPDATE_FIRST_NAME = "update first name",
-  UPDATE_LAST_NAME = "update last name",
-  UPDATE_JOB_TITLE = "update job title",
-  UPDATE_ADDRESS = "update address",
-  UPDATE_EMAIL = "update email",
-  UPDATE_FORM = "update form",
+  UPDATE_FIRST_NAME = 'update first name',
+  UPDATE_LAST_NAME = 'update last name',
+  UPDATE_JOB_TITLE = 'update job title',
+  UPDATE_ADDRESS = 'update address',
+  UPDATE_EMAIL = 'update email',
+  UPDATE_PHONE_NUMBER = 'update phone number',
+  UPDATE_FORM = 'update form',
 }
 
 export interface IAction {
@@ -42,16 +44,17 @@ export const reducer = (state: IContactForm, action: IAction) => {
 }
 
 export const initialFormState: IContactForm = {
-  firstName: "",
-  lastName: "",
-  jobTitle: "",
-  address: "",
-  email: "",
+  firstName: '',
+  lastName: '',
+  jobTitle: '',
+  address: '',
+  phoneNumber: '',
+  email: '',
 }
 
 export enum FormType {
-  EDIT = "Edit contact",
-  ADD = "Add new contact",
+  EDIT = 'Edit contact',
+  ADD = 'Add new contact',
 }
 
 export const onInputChange = (

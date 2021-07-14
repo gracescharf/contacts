@@ -4,11 +4,11 @@ import ContactForm from '../components/ContactForm'
 
 const AddNewContact = () => {
   return (
-    <main>
+    <div>
       <BackToContactsLink />
       <h1>Add contact</h1>
       <ContactForm />
-    </main>
+    </div>
   )
 }
 

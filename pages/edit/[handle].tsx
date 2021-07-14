@@ -9,11 +9,11 @@ const EditContact = () => {
   if (!contact) return 'No contact found'
 
   return (
-    <main>
+    <div>
       <BackToContactsLink />
       <h1>Edit contact</h1>
       <ContactForm contact={contact}></ContactForm>
-    </main>
+    </div>
   )
 }
 

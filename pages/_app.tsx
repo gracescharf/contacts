@@ -22,7 +22,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <ContactsContext.Provider value={{ contacts, setContacts }}>
-        <Component {...pageProps} />
+        <main>
+          <Component {...pageProps} />
+        </main>
       </ContactsContext.Provider>
     </>
   )
