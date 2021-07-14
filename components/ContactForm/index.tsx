@@ -10,6 +10,11 @@ import {
   onInputChange,
   reducer,
 } from './state'
+import {
+  addContactRequest,
+  deleteContactRequest,
+  editContactRequest,
+} from './service'
 
 import styles from './contact-form.module.css'
 
@@ -35,7 +40,7 @@ const ContactForm: React.FunctionComponent<{
     })
   }, [contact])
 
-  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const handle = handleize(`${formState.firstName} ${formState.lastName}`)
     const newContact = {
@@ -43,36 +48,25 @@ const ContactForm: React.FunctionComponent<{
       handle,
     }
 
-    if (contact && formType === FormType.EDIT) {
-      const oldContactIndex = contacts.findIndex(
-        (c) => c.handle === contact.handle
-      )
-      const copiedContacts = [...contacts]
-      copiedContacts.splice(oldContactIndex, 1)
-
-      setContacts([...copiedContacts, newContact])
-    } else {
-      setContacts([...contacts, newContact])
-    }
+    const updatedContacts =
+      contact && formType === FormType.EDIT
+        ? await editContactRequest({ newContact, oldHandle: contact.handle })
+        : await addContactRequest(newContact)
+    setContacts(updatedContacts)
 
     router.push(`/contacts/${handle}`)
   }
 
-  const deleteContact = () => {
+  const deleteContact = async () => {
     if (
       contact &&
       window.confirm(
         `Are you sure you want to delete ${contact.firstName} ${contact.lastName} from your contacts?`
       )
     ) {
-      const copiedContacts = [...contacts]
+      const updatedContacts = await deleteContactRequest(contact.handle)
 
-      const oldContactIndex = contacts.findIndex(
-        (c) => c.handle === contact.handle
-      )
-      copiedContacts.splice(oldContactIndex, 1)
-
-      setContacts([...copiedContacts])
+      setContacts(updatedContacts)
       router.push('/')
     } else return null
   }
