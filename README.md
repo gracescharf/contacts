@@ -27,12 +27,15 @@ Each API returns an array of contact objects
 
 ---
 
-**Get Contacts**
+### Get Contacts
 Always sends back an array of the same 3 contacts
 
 **URL** `/api/get-contacts`
+
 **Method** `get`
+
 **Returns** An array of contact objects
+
 **Example usage**
 
     fetch('/api/get-contacts')
@@ -41,13 +44,17 @@ Always sends back an array of the same 3 contacts
 
 ---
 
-**Add Contact**
+### Add Contact
 Takes a new contact object and returns the mock contact data array plus the new contact. Because there isn't an actual database set up, only one new contact can be added. Adding another new contact will result in the loss of the previous new contact
 
 **URL** `/api/add-contact`
+
 **Method** `post`
+
 **Accepts** A contact object
+
 **Returns** An array of contact objects, including new contact
+
 **Example usage**
 
     fetch('/api/add-contact', {
@@ -59,13 +66,17 @@ Takes a new contact object and returns the mock contact data array plus the new 
 
 ---
 
-**Edit**
+### Edit Contact
 Edit the content of a single contact
 
 **URL** `/api/edit-contact`
+
 **Method** `post`
+
 **Accepts** An object containing two properties: the new version of the contact object and the old version's handle
+
 **Returns** An array of contact objects with only the new version of the edited contact
+
 **Example usage**
 
     fetch('/api/edit-contact', {
@@ -77,13 +88,17 @@ Edit the content of a single contact
 
 ---
 
-**Delete Contact**
+### Delete Contact
 Similar to `add-contact`, only one contact at a time can be deleted
 
 **URL** `/api/delete-contact`
-**Method** `get``
+
+**Method** `get`
+
 **Accepts** The handle of the contact to delete
+
 **Returns** An array of contact objects minus the contact with the matched handle
+
 **Example usage**
 
     fetch(`/api/delete-contact/${handle}`)
